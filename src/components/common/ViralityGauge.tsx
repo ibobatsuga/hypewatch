@@ -11,14 +11,13 @@ interface ViralityGaugeProps {
 export const ViralityGauge: React.FC<ViralityGaugeProps> = ({
   score = 88,
   label = 'Extreme Virality',
-  sublabel = 'Outlier reach index today'
 }) => {
-  // 0 to 100 mapped to 240 degrees arc
+  // 0 to 100 mapped to 270 degrees arc
   const radius = 68;
   const stroke = 12;
   const normalizedRadius = radius - stroke * 0.5;
   const circumference = normalizedRadius * 2 * Math.PI;
-  // Use 70% of circle for gauge arc
+  // Use 75% of circle for gauge arc
   const arcLength = circumference * 0.75;
   const strokeDashoffset = arcLength - (score / 100) * arcLength;
 
@@ -71,19 +70,19 @@ export const ViralityGauge: React.FC<ViralityGaugeProps> = ({
           />
         </svg>
 
-        {/* Center content */}
+        {/* Bagian tengah: HANYA ANGKA SAJA */}
         <div className="absolute flex flex-col items-center justify-center text-center">
-          <span className="text-4xl font-extrabold tracking-tight text-white drop-shadow-[0_0_15px_rgba(249,115,22,0.4)]">
+          <span className="text-5xl font-extrabold tracking-tight text-white drop-shadow-[0_0_20px_rgba(249,115,22,0.4)] font-mono tabular-nums">
             {score}
-          </span>
-          <span className="text-xs font-semibold text-orange-400 mt-0.5 uppercase tracking-wider">
-            {label}
           </span>
         </div>
       </div>
 
-      <div className="text-center mt-1">
-        <p className="text-xs text-neutral-400">{sublabel}</p>
+      {/* Status Extreme Virality menggantikan Outlier Reach Index today */}
+      <div className="text-center mt-2">
+        <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider bg-orange-500/10 px-3 py-1 rounded-full border border-orange-500/25">
+          {label}
+        </span>
       </div>
     </div>
   );
