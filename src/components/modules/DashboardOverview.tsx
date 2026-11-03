@@ -15,7 +15,10 @@ import {
   Bookmark,
   Sparkles,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  Eye,
+  SlidersHorizontal,
+  Compass
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -29,313 +32,355 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   onAnalyzeVideo
 }) => {
   return (
-    <div className="space-y-6 pb-24">
-      {/* Header Greeting */}
+    <div className="space-y-6 pb-28">
+      {/* Top Banner / Welcome */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-white flex items-center gap-2">
-            Good evening, Bobi
-            <span className="text-2xl animate-pulse">🔥</span>
-          </h1>
-          <p className="text-sm text-neutral-400 mt-1">
-            Here is how your content radars and viral outliers are performing today.
+          <div className="flex items-center gap-2">
+            <h1 className="text-2xl font-bold tracking-tight text-white">
+              Good evening, Bobi
+            </h1>
+            <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          </div>
+          <p className="text-xs text-zinc-400 mt-1">
+            Radar intelligence is active across Indonesia reels & TikTok. 2,934 outliers captured today.
           </p>
         </div>
 
         <div className="flex items-center gap-3">
           <button
             onClick={() => onNavigate('search')}
-            className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-semibold text-xs shadow-[0_0_20px_-3px_rgba(249,115,22,0.5)] transition-all flex items-center gap-1.5"
+            className="px-4 py-2 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-medium text-xs shadow-[0_0_20px_-3px_rgba(249,115,22,0.4)] transition-all flex items-center gap-1.5"
           >
-            <Flame className="w-4 h-4 fill-white" />
-            View Live Outliers Feed
+            <Flame className="w-3.5 h-3.5 fill-white" />
+            Live Outliers Feed
+          </button>
+          <button
+            onClick={() => onNavigate('radar')}
+            className="px-3 py-2 rounded-lg bg-white/[0.05] hover:bg-white/[0.08] text-zinc-300 font-medium text-xs border border-white/[0.08] transition-all flex items-center gap-1.5"
+          >
+            <Radio className="w-3.5 h-3.5 text-zinc-400" />
+            Manage Radars
           </button>
         </div>
       </div>
 
-      {/* 4 Top KPI Glass Cards (Matching Reference Layout) */}
+      {/* 4 Precision KPI Glass Cards (Signal AI Aesthetic) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Card 1 */}
-        <GlassCard hoverEffect className="p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-neutral-400 text-xs font-semibold uppercase tracking-wider">
-            <span>Viral Spikes Today</span>
-            <div className="w-7 h-7 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
-              <TrendingUp className="w-3.5 h-3.5" />
-            </div>
+        <div className="glass-panel p-4.5 rounded-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between text-zinc-400 text-[11px] font-semibold tracking-wider uppercase">
+            <span>Viral Spikes (24H)</span>
+            <ArrowUpRight className="w-3.5 h-3.5 text-zinc-500" />
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold text-white tracking-tight">2,934</div>
-            <div className="flex items-center gap-1.5 mt-2">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
-                +14.2% vs avg
+            <div className="text-2xl font-bold text-white tracking-tight font-mono tabular-nums">
+              2,934
+            </div>
+            <div className="flex items-center gap-2 mt-1.5">
+              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/25">
+                +14.2%
               </span>
-              <span className="text-xs text-neutral-400">outlier videos</span>
+              <span className="text-[11px] text-zinc-500">vs 30d baseline</span>
             </div>
           </div>
-        </GlassCard>
+        </div>
 
         {/* Card 2 */}
-        <GlassCard hoverEffect className="p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-neutral-400 text-xs font-semibold uppercase tracking-wider">
+        <div className="glass-panel p-4.5 rounded-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between text-zinc-400 text-[11px] font-semibold tracking-wider uppercase">
             <span>Active Radars</span>
-            <div className="w-7 h-7 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-              <Radio className="w-3.5 h-3.5" />
-            </div>
+            <Radio className="w-3.5 h-3.5 text-zinc-500" />
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold text-white tracking-tight">16</div>
-            <div className="flex items-center gap-1.5 mt-2">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400 border border-purple-500/30">
+            <div className="text-2xl font-bold text-white tracking-tight font-mono tabular-nums">
+              16
+            </div>
+            <div className="flex items-center gap-2 mt-1.5">
+              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-orange-500/15 text-orange-400 border border-orange-500/25">
                 3 Workspaces
               </span>
-              <span className="text-xs text-neutral-400">monitoring 24/7</span>
+              <span className="text-[11px] text-zinc-500">daily automated scans</span>
             </div>
           </div>
-        </GlassCard>
+        </div>
 
         {/* Card 3 */}
-        <GlassCard hoverEffect className="p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-neutral-400 text-xs font-semibold uppercase tracking-wider">
-            <span>Avg Fire Score</span>
-            <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
-              <Flame className="w-3.5 h-3.5" />
-            </div>
+        <div className="glass-panel p-4.5 rounded-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between text-zinc-400 text-[11px] font-semibold tracking-wider uppercase">
+            <span>Peak Outlier Fire</span>
+            <Flame className="w-3.5 h-3.5 text-orange-500" />
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold text-white tracking-tight">148.2x</div>
-            <div className="flex items-center gap-1.5 mt-2">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
-                Top 1% viral
+            <div className="text-2xl font-bold text-white tracking-tight font-mono tabular-nums">
+              248.5×
+            </div>
+            <div className="flex items-center gap-2 mt-1.5">
+              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-orange-500/15 text-orange-300 border border-orange-500/30">
+                🔥 Extreme Reach
               </span>
-              <span className="text-xs text-neutral-400">expected reach</span>
+              <span className="text-[11px] text-zinc-500">top 0.1% tier</span>
             </div>
           </div>
-        </GlassCard>
+        </div>
 
         {/* Card 4 */}
-        <GlassCard hoverEffect className="p-5 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-neutral-400 text-xs font-semibold uppercase tracking-wider">
-            <span>Token Balance</span>
-            <div className="w-7 h-7 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400">
-              <Zap className="w-3.5 h-3.5" />
-            </div>
+        <div className="glass-panel p-4.5 rounded-xl flex flex-col justify-between">
+          <div className="flex items-center justify-between text-zinc-400 text-[11px] font-semibold tracking-wider uppercase">
+            <span>Token Quota</span>
+            <Zap className="w-3.5 h-3.5 text-orange-400" />
           </div>
           <div className="mt-3">
-            <div className="text-3xl font-extrabold text-white tracking-tight">2,500</div>
-            <div className="flex items-center gap-1.5 mt-2">
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
+            <div className="text-2xl font-bold text-white tracking-tight font-mono tabular-nums">
+              2,500
+            </div>
+            <div className="flex items-center gap-2 mt-1.5">
+              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded bg-blue-500/15 text-blue-400 border border-blue-500/25">
                 Start Plan
               </span>
-              <span className="text-xs text-neutral-400">Refill Nov 10</span>
+              <span className="text-[11px] text-zinc-500">renews 10 Nov 2026</span>
             </div>
           </div>
-        </GlassCard>
+        </div>
       </div>
 
-      {/* Main Two-Column Grid: Outliers Feed vs Virality Dial */}
+      {/* Main Grid: Outlier Signals & Virality Sentiment Gauge */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left 2 Cols: Active Viral Outliers */}
+        {/* Left 2 Cols: Active Viral Signals */}
         <div className="lg:col-span-2 space-y-4">
-          <GlassCard className="p-6">
-            <div className="flex items-center justify-between mb-4">
+          <div className="glass-panel p-5 rounded-xl">
+            <div className="flex items-center justify-between pb-4 border-b border-white/[0.06]">
               <div>
-                <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                  <Flame className="w-5 h-5 text-orange-500 fill-orange-500" />
-                  Top Outliers (Beating Expected Reach)
-                </h2>
-                <p className="text-xs text-neutral-400 mt-0.5">
-                  Videos that reached significantly more people than the account&apos;s baseline
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base font-semibold text-white tracking-tight">
+                    Active Viral Outliers
+                  </h2>
+                  <span className="text-[10px] font-mono font-medium px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-400 border border-orange-500/25">
+                    Real-Time Signals
+                  </span>
+                </div>
+                <p className="text-xs text-zinc-400 mt-0.5">
+                  Content performing significantly higher than account baseline expectation
                 </p>
               </div>
+
               <button
                 onClick={() => onNavigate('search')}
-                className="text-xs font-semibold text-orange-400 hover:text-orange-300 flex items-center gap-1"
+                className="text-xs font-medium text-orange-400 hover:text-orange-300 flex items-center gap-1 transition-colors"
               >
-                View all <ChevronRight className="w-3.5 h-3.5" />
+                View all feed <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>
 
-            {/* List of top items */}
-            <div className="space-y-3">
+            {/* List of Outlier Signals */}
+            <div className="divide-y divide-white/[0.05] mt-2">
               {INITIAL_VIDEOS.slice(0, 4).map((video) => (
                 <div
                   key={video.id}
-                  className="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl bg-neutral-900/40 border border-white/5 hover:border-orange-500/30 transition-all gap-4"
+                  className="py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:bg-white/[0.02] -mx-2 px-2 rounded-lg transition-colors"
                 >
-                  <div className="flex items-center gap-3.5">
-                    <div className="relative w-14 h-20 rounded-lg overflow-hidden shrink-0 border border-white/10 group">
-                      <img
-                        src={video.thumbnailUrl}
-                        alt={video.title}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                      />
-                      <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <Play className="w-4 h-4 text-white fill-white opacity-80" />
-                      </div>
-                      <span className="absolute bottom-1 right-1 text-[9px] bg-black/70 px-1 rounded text-white font-mono">
-                        {video.duration}
+                  <div className="flex items-start gap-3 min-w-0">
+                    {/* Thumbnail / Platform Indicator */}
+                    <div className="w-10 h-14 rounded-md bg-[#181a24] border border-white/[0.08] relative overflow-hidden shrink-0 flex items-center justify-center">
+                      <Play className="w-4 h-4 text-white/70" />
+                      <span className="absolute bottom-1 right-1 text-[8px] font-bold uppercase px-1 rounded bg-black/70 text-zinc-300">
+                        {video.platform === 'instagram' ? 'IG' : 'TT'}
                       </span>
                     </div>
 
-                    <div className="flex flex-col">
+                    {/* Metadata */}
+                    <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase">
-                          {video.platform}
+                        <span className="text-xs font-semibold text-zinc-200 truncate">
+                          {video.creatorHandle}
                         </span>
-                        <span className="text-xs font-semibold text-neutral-300">
-                          {video.creatorName}
+                        <span className="badge-fire text-[10px] font-mono font-semibold px-1.5 py-0.2 rounded flex items-center gap-1">
+                          🔥 ×{video.fireScore}
+                        </span>
+                        <span className="text-[10px] font-mono text-zinc-500">
+                          ER {((video.likes / video.views) * 100).toFixed(1)}%
                         </span>
                       </div>
-                      <h3 className="text-sm font-bold text-white line-clamp-1 mt-0.5">
+                      <p className="text-xs text-zinc-300 font-normal line-clamp-1 mt-0.5">
                         {video.title}
-                      </h3>
-                      <div className="flex items-center gap-3 text-xs text-neutral-400 mt-1">
-                        <span>{(video.views / 1000000).toFixed(1)}M views</span>
-                        <span>•</span>
-                        <span className="text-orange-400 font-bold flex items-center gap-1">
-                          🔥 ×{video.fireScore} vs avg
-                        </span>
-                      </div>
+                      </p>
+                      <p className="text-[11px] text-zinc-500 italic line-clamp-1 mt-0.5">
+                        &ldquo;{video.hookText}&rdquo;
+                      </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2 self-end sm:self-center">
-                    <button
-                      onClick={() => onAnalyzeVideo(video)}
-                      className="px-3 py-1.5 rounded-lg bg-orange-500/20 hover:bg-orange-500/30 border border-orange-500/40 text-orange-300 text-xs font-semibold transition-all flex items-center gap-1.5"
-                    >
-                      <Sparkles className="w-3.5 h-3.5" />
-                      Analyze
-                    </button>
-                    <button
-                      onClick={() =>
-                        toast.success('Link copied to clipboard', {
-                          description: `Video: ${video.title}`
-                        })
-                      }
-                      className="w-8 h-8 rounded-lg bg-neutral-800/60 border border-white/10 hover:border-white/20 flex items-center justify-center text-neutral-300 transition-colors"
-                    >
-                      <Share2 className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </GlassCard>
+                    {/* Right side stats & action */}
+                    <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0">
+                      <div className="text-right">
+                        <div className="text-xs font-semibold text-zinc-200 font-mono tabular-nums">
+                          {video.views >= 1000000
+                            ? `${(video.views / 1000000).toFixed(1)}M`
+                            : `${(video.views / 1000).toFixed(0)}K`}{' '}
+                          views
+                        </div>
+                        <div className="text-[10px] font-mono text-zinc-500">
+                          +{video.likes >= 1000000
+                            ? `${(video.likes / 1000000).toFixed(1)}M`
+                            : `${(video.likes / 1000).toFixed(1)}K`}{' '}
+                          likes
+                        </div>
+                      </div>
 
-          {/* Quick Workspaces Section */}
-          <GlassCard className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <Radio className="w-4 h-4 text-purple-400" />
-                Active Radar Workspaces
-              </h3>
-              <button
-                onClick={() => onNavigate('radar')}
-                className="text-xs text-neutral-400 hover:text-white"
-              >
-                Manage
-              </button>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {RADAR_WORKSPACES.map((ws) => (
-                <div
-                  key={ws.id}
-                  onClick={() => onNavigate('radar')}
-                  className="p-3.5 rounded-xl bg-neutral-900/50 border border-white/5 hover:border-purple-500/40 cursor-pointer transition-all"
-                >
-                  <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-bold text-white">{ws.name}</h4>
-                    <ArrowUpRight className="w-4 h-4 text-neutral-400" />
-                  </div>
-                  <div className="flex items-center gap-2 mt-2">
-                    {ws.keywords.map((kw) => (
-                      <span
-                        key={kw.id}
-                        className="text-[10px] px-2 py-0.5 rounded-full bg-white/5 text-neutral-300 border border-white/10"
+                      <button
+                        onClick={() => onAnalyzeVideo(video)}
+                        className="px-2.5 py-1.5 rounded-md bg-white/[0.05] hover:bg-orange-500/20 text-zinc-300 hover:text-orange-300 border border-white/[0.08] hover:border-orange-500/30 text-xs font-medium transition-all flex items-center gap-1.5"
                       >
-                        {kw.text}
-                      </span>
-                    ))}
-                  </div>
-                  <p className="text-[11px] text-neutral-400 mt-2">
-                    📸 {ws.instagramCount} Reels · 🎵 {ws.tiktokCount} TikToks
-                  </p>
+                        <Sparkles className="w-3 h-3 text-orange-400" />
+                        Deconstruct (5⚡)
+                      </button>
+                    </div>
                 </div>
               ))}
             </div>
-          </GlassCard>
+          </div>
         </div>
 
-        {/* Right 1 Col: Sentiment Gauge & Audio Ticker */}
+        {/* Right 1 Col: Market Virality Gauge (Signal AI Style) */}
         <div className="space-y-4">
-          {/* Virality Sentiment Dial (Inspired by Signal AI Greed Meter) */}
-          <GlassCard className="p-6 flex flex-col items-center">
-            <div className="w-full flex items-center justify-between mb-2">
-              <h3 className="text-sm font-bold text-white tracking-wide">
+          <div className="glass-panel p-5 rounded-xl flex flex-col items-center text-center">
+            <div className="w-full flex items-center justify-between pb-3 border-b border-white/[0.06]">
+              <span className="text-xs font-semibold text-zinc-400 uppercase tracking-wider">
                 Virality Sentiment
-              </h3>
-              <span className="text-[10px] px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30 font-bold">
-                LIVE
+              </span>
+              <span className="text-[10px] font-mono font-medium text-orange-400 bg-orange-500/10 px-2 py-0.5 rounded border border-orange-500/20">
+                LIVE INDEX
               </span>
             </div>
 
-            <ViralityGauge
-              score={88}
-              label="Extreme Virality"
-              sublabel="High organic reach window across Meta & TikTok"
-            />
-
-            <div className="w-full mt-4 pt-4 border-t border-white/5 flex items-center justify-between text-xs text-neutral-400">
-              <span>Baseline: 45 Normal</span>
-              <span className="text-orange-400 font-bold">88 Extreme Hype</span>
+            <div className="my-3">
+              <ViralityGauge score={88} label="Extreme Virality" />
             </div>
-          </GlassCard>
 
-          {/* Audio Velocity Ticker */}
-          <GlassCard className="p-5">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="text-xs font-bold text-neutral-300 uppercase tracking-wider flex items-center gap-1.5">
-                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-                Sounds Speeding Up
+            <div className="w-full space-y-2 mt-2 pt-3 border-t border-white/[0.06] text-left text-xs">
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Algorithm Favorability</span>
+                <span className="text-zinc-200 font-mono font-medium">94%</span>
+              </div>
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Avg 3s Retention Rate</span>
+                <span className="text-emerald-400 font-mono font-medium">68.4%</span>
+              </div>
+              <div className="flex items-center justify-between text-zinc-400">
+                <span>Peak Posting Window</span>
+                <span className="text-zinc-200 font-mono font-medium">18:30 – 21:00 WIB</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Script Access */}
+          <div className="glass-panel p-4.5 rounded-xl">
+            <div className="flex items-center gap-2 mb-2">
+              <Sparkles className="w-4 h-4 text-orange-400" />
+              <h3 className="text-xs font-semibold text-zinc-200">
+                AI Scriptwriter Short-cut
               </h3>
-              <button
-                onClick={() => onNavigate('audio')}
-                className="text-xs text-orange-400 hover:text-orange-300"
+            </div>
+            <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
+              Adapt top trending hooks directly into your personalized tone of voice.
+            </p>
+            <button
+              onClick={() => onNavigate('gpt')}
+              className="w-full py-2 rounded-lg bg-white/[0.06] hover:bg-white/[0.1] border border-white/[0.08] text-xs font-medium text-white transition-colors flex items-center justify-center gap-2"
+            >
+              Generate Viral Script (15⚡)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 3 Bottom Feature Cards: Audio Velocity, Formats & Radars */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Audio Radar */}
+        <div className="glass-panel p-4.5 rounded-xl">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm">🎵</span>
+              <h3 className="text-xs font-semibold text-zinc-200">Audio Velocity</h3>
+            </div>
+            <button
+              onClick={() => onNavigate('audio')}
+              className="text-[11px] text-zinc-500 hover:text-zinc-300"
+            >
+              View 50
+            </button>
+          </div>
+          <div className="space-y-2">
+            {AUDIO_TRENDS.slice(0, 3).map((a) => (
+              <div
+                key={a.id}
+                className="flex items-center justify-between text-xs py-1 border-b border-white/[0.03]"
               >
-                All 50
-              </button>
-            </div>
-
-            <div className="space-y-2.5">
-              {AUDIO_TRENDS.slice(0, 3).map((audio) => (
-                <div
-                  key={audio.id}
-                  onClick={() => onNavigate('audio')}
-                  className="flex items-center justify-between p-2.5 rounded-lg bg-neutral-900/40 hover:bg-neutral-800/50 cursor-pointer border border-white/5 transition-colors"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <span className="text-xs font-mono font-bold text-neutral-400">
-                      #{audio.rank}
-                    </span>
-                    <div>
-                      <h4 className="text-xs font-bold text-white line-clamp-1">
-                        {audio.title}
-                      </h4>
-                      <p className="text-[10px] text-neutral-400">{audio.artist}</p>
-                    </div>
-                  </div>
-
-                  <div className="text-right">
-                    <span className="text-xs font-bold text-emerald-400 font-mono">
-                      ×{audio.paceTrend}
-                    </span>
-                    <p className="text-[10px] text-neutral-400">+{audio.paceDaily}/day</p>
-                  </div>
+                <div className="truncate mr-2">
+                  <p className="text-zinc-300 font-medium truncate">{a.title}</p>
+                  <p className="text-[10px] text-zinc-500">{a.artist}</p>
                 </div>
-              ))}
+                <span className="text-[11px] font-mono text-emerald-400 shrink-0">
+                  +{a.paceDaily}/day
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Video Formats */}
+        <div className="glass-panel p-4.5 rounded-xl">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm">🎬</span>
+              <h3 className="text-xs font-semibold text-zinc-200">Breakout Formats</h3>
             </div>
-          </GlassCard>
+            <button
+              onClick={() => onNavigate('formats')}
+              className="text-[11px] text-zinc-500 hover:text-zinc-300"
+            >
+              All Formats
+            </button>
+          </div>
+          <div className="space-y-2">
+            <div className="p-2 rounded bg-white/[0.02] border border-white/[0.04]">
+              <p className="text-xs font-medium text-zinc-200">One Outfit Multiple Poses</p>
+              <p className="text-[10px] text-zinc-400 mt-0.5">+480% adoption in ID fashion</p>
+            </div>
+            <div className="p-2 rounded bg-white/[0.02] border border-white/[0.04]">
+              <p className="text-xs font-medium text-zinc-200">The 3-Second Hard Cut Hook</p>
+              <p className="text-[10px] text-zinc-400 mt-0.5">82% average completion rate</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Competitor Spy */}
+        <div className="glass-panel p-4.5 rounded-xl">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-sm">🎯</span>
+              <h3 className="text-xs font-semibold text-zinc-200">Tracked Radars</h3>
+            </div>
+            <button
+              onClick={() => onNavigate('radar')}
+              className="text-[11px] text-zinc-500 hover:text-zinc-300"
+            >
+              Configure
+            </button>
+          </div>
+          <div className="space-y-2">
+            {RADAR_WORKSPACES.map((w) => (
+              <div
+                key={w.id}
+                className="flex items-center justify-between text-xs py-1.5 border-b border-white/[0.03]"
+              >
+                <span className="text-zinc-300 font-medium truncate">{w.name}</span>
+                <span className="text-[10px] font-mono text-orange-400 bg-orange-500/10 px-1.5 py-0.5 rounded">
+                  {w.tiktokCount + w.instagramCount} vids
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

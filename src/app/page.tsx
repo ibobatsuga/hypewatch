@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Navbar, ActiveTab } from '../components/layout/Navbar';
+import React, { useState, useEffect } from 'react';
+import { Sidebar } from '../components/layout/Sidebar';
+import { TopHeader } from '../components/layout/TopHeader';
+import { ActiveTab } from '../components/layout/Navbar';
 import { CopilotDock } from '../components/layout/CopilotDock';
 import { DashboardOverview } from '../components/modules/DashboardOverview';
 import { VideoSearchModule } from '../components/modules/VideoSearchModule';
@@ -22,8 +24,21 @@ import { VideoItem } from '../types';
 export default function Home() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('dashboard');
   const [tokens, setTokens] = useState<number>(2500);
+  const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [activeVideoForAnalysis, setActiveVideoForAnalysis] = useState<VideoItem | null>(null);
   const [scriptwriterPrompt, setScriptwriterPrompt] = useState<string>('');
+
+  // Keyboard shortcut Ctrl+B or Cmd+B to toggle sidebar
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        setIsCollapsed((prev) => !prev);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleAnalyzeVideo = (video: VideoItem) => {
     if (tokens < 5) {
@@ -33,7 +48,7 @@ export default function Home() {
     setTokens((prev) => prev - 5);
     setActiveVideoForAnalysis(video);
     toast.success(`Analyzing "${video.title}" (Deducted 5 tokens)`, {
-      description: 'Extracted 3s Hook, Scene Retention & Shooting Blueprint'
+      description: 'Extracted 3s Hook, Scene Retention & Shooting Blueprint',
     });
   };
 
@@ -49,143 +64,186 @@ export default function Home() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#07070a] text-neutral-100 flex flex-col selection:bg-orange-500 selection:text-white">
-      {/* Ambient Diffuse Background Glows (Matching Signal AI Reference) */}
+    <div className="relative min-h-screen bg-[#08090d] text-zinc-100 flex selection:bg-orange-500 selection:text-white">
+      {/* Ambient Diffuse Background Glows */}
       <div className="ambient-glow-top" />
       <div className="ambient-glow-bottom" />
 
       {/* Toast Notifications */}
       <Toaster position="top-right" theme="dark" richColors />
 
-      {/* Top Floating Glass Navbar */}
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} tokens={tokens} />
+      {/* Collapsible Left Sidebar */}
+      <Sidebar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        tokens={tokens}
+        isCollapsed={isCollapsed}
+        setIsCollapsed={setIsCollapsed}
+      />
 
-      {/* Main Module Content Surface */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 pt-6 z-10">
-        {activeTab === 'dashboard' && (
-          <DashboardOverview
-            onNavigate={(tab) => setActiveTab(tab)}
-            onAnalyzeVideo={handleAnalyzeVideo}
-          />
-        )}
+      {/* Main App Container */}
+      <div
+        className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out ${
+          isCollapsed ? 'pl-18' : 'pl-64'
+        }`}
+      >
+        {/* Top Header with Breadcrumb & Global Actions */}
+        <TopHeader
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tokens={tokens}
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+        />
 
-        {activeTab === 'search' && (
-          <VideoSearchModule
-            onAnalyzeVideo={handleAnalyzeVideo}
-            onAdaptScript={handleAdaptScript}
-          />
-        )}
+        {/* Main Content Area */}
+        <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-6 z-10">
+          {activeTab === 'dashboard' && (
+            <DashboardOverview
+              onNavigate={(tab) => setActiveTab(tab)}
+              onAnalyzeVideo={handleAnalyzeVideo}
+            />
+          )}
 
-        {activeTab === 'workspace' && (
-          <WorkspaceHubModule onNavigate={(tab) => setActiveTab(tab)} tokens={tokens} />
-        )}
+          {activeTab === 'search' && (
+            <VideoSearchModule
+              onAnalyzeVideo={handleAnalyzeVideo}
+              onAdaptScript={handleAdaptScript}
+            />
+          )}
 
-        {activeTab === 'audio' && <AudioTrendsModule />}
+          {activeTab === 'workspace' && (
+            <WorkspaceHubModule onNavigate={(tab) => setActiveTab(tab)} tokens={tokens} />
+          )}
 
-        {activeTab === 'long' && <LongTrendsModule />}
+          {activeTab === 'audio' && <AudioTrendsModule />}
 
-        {activeTab === 'formats' && (
-          <FormatTrendsModule onNavigateToTemplates={() => setActiveTab('templates')} />
-        )}
+          {activeTab === 'long' && <LongTrendsModule />}
 
-        {activeTab === 'radar' && <ContentRadarModule />}
+          {activeTab === 'formats' && (
+            <FormatTrendsModule onNavigateToTemplates={() => setActiveTab('templates')} />
+          )}
 
-        {activeTab === 'spy' && <ContentRadarModule />}
+          {activeTab === 'radar' && <ContentRadarModule />}
 
-        {activeTab === 'gpt' && (
-          <AiScriptwriterModule
-            tokens={tokens}
-            setTokens={setTokens}
-            initialPrompt={scriptwriterPrompt}
-          />
-        )}
+          {activeTab === 'spy' && <ContentRadarModule />}
 
-        {activeTab === 'carousels' && (
-          <CarouselsModule tokens={tokens} setTokens={setTokens} />
-        )}
+          {activeTab === 'gpt' && (
+            <AiScriptwriterModule
+              tokens={tokens}
+              setTokens={setTokens}
+              initialPrompt={scriptwriterPrompt}
+            />
+          )}
 
-        {activeTab === 'templates' && <ShootingTemplatesModule />}
+          {activeTab === 'carousels' && (
+            <CarouselsModule tokens={tokens} setTokens={setTokens} />
+          )}
 
-        {activeTab === 'tools' && <ToolsModule />}
+          {activeTab === 'templates' && <ShootingTemplatesModule />}
 
-        {activeTab === 'cabinet' && <CreatorCabinetModule />}
+          {activeTab === 'tools' && <ToolsModule />}
 
-        {activeTab === 'settings' && (
-          <SettingsMcpModule tokens={tokens} setTokens={setTokens} />
-        )}
-      </main>
+          {activeTab === 'cabinet' && <CreatorCabinetModule />}
 
-      {/* Video Analysis Modal (If a video is being analyzed) */}
+          {activeTab === 'settings' && (
+            <SettingsMcpModule tokens={tokens} setTokens={setTokens} />
+          )}
+        </main>
+      </div>
+
+      {/* Floating Bottom AI Copilot Dock */}
+      <CopilotDock onExecutePrompt={handleExecuteCopilotPrompt} />
+
+      {/* Video Analysis Modal */}
       {activeVideoForAnalysis && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-lg p-4">
-          <div className="relative w-full max-w-2xl p-6 rounded-3xl glass-panel border border-orange-500/40 space-y-5 shadow-2xl animate-in fade-in zoom-in-95">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-orange-400 uppercase tracking-widest flex items-center gap-1.5">
-                ⚡ Video Outlier Breakdown · Cost: 5 Tokens
-              </span>
+          <div className="glass-panel rounded-2xl max-w-2xl w-full p-6 border border-white/10 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <div className="flex items-center gap-2">
+                <span className="text-orange-500 font-bold">✨ AI Deconstruction</span>
+                <span className="text-xs text-neutral-400">
+                  {activeVideoForAnalysis.creatorHandle}
+                </span>
+              </div>
               <button
                 onClick={() => setActiveVideoForAnalysis(null)}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center"
+                className="text-neutral-400 hover:text-white text-xs px-2 py-1 rounded bg-white/5"
               >
-                &times;
+                ✕ Close
               </button>
             </div>
 
-            <div className="flex items-center gap-4 p-3 rounded-2xl bg-neutral-900/80 border border-white/5">
-              <img
-                src={activeVideoForAnalysis.thumbnailUrl}
-                alt=""
-                className="w-16 h-20 rounded-xl object-cover"
-              />
-              <div>
-                <h3 className="text-sm font-bold text-white">{activeVideoForAnalysis.title}</h3>
-                <p className="text-xs text-neutral-400 mt-0.5">
-                  {activeVideoForAnalysis.creatorName} · {activeVideoForAnalysis.views.toLocaleString()} views · 🔥 ×{activeVideoForAnalysis.fireScore} vs expected reach
+            <div className="space-y-3 text-sm">
+              <div className="p-3 rounded-lg bg-orange-500/10 border border-orange-500/20">
+                <span className="text-xs font-bold text-orange-400 uppercase tracking-wider">
+                  3-Second Retention Hook Formula
+                </span>
+                <p className="text-white font-medium mt-1">
+                  &ldquo;{activeVideoForAnalysis.hookText}&rdquo;
+                </p>
+                <p className="text-xs text-neutral-400 mt-1">
+                  Psychological Trigger: Pattern Interrupt + Loss Aversion Curiosity Gap.
                 </p>
               </div>
-            </div>
 
-            <div className="space-y-3 text-xs text-neutral-300">
-              <div className="p-3.5 rounded-xl bg-orange-500/10 border border-orange-500/20">
-                <strong className="text-orange-400 block mb-1">🎯 3-Second Hook Technique:</strong>
-                &quot;{activeVideoForAnalysis.hookText}&quot; (Creates an immediate curiosity void + high cognitive conflict).
+              <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                <div className="p-2 rounded bg-white/5 border border-white/5">
+                  <span className="text-neutral-400">Virality Multiplier</span>
+                  <div className="text-lg font-bold text-orange-400">
+                    🔥 ×{activeVideoForAnalysis.fireScore}
+                  </div>
+                </div>
+                <div className="p-2 rounded bg-white/5 border border-white/5">
+                  <span className="text-neutral-400">Engagement Rate</span>
+                  <div className="text-lg font-bold text-emerald-400">
+                    {((activeVideoForAnalysis.likes / activeVideoForAnalysis.views) * 100).toFixed(1)}%
+                  </div>
+                </div>
+                <div className="p-2 rounded bg-white/5 border border-white/5">
+                  <span className="text-neutral-400">Est. Watch Time</span>
+                  <div className="text-lg font-bold text-blue-400">92.4%</div>
+                </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-neutral-900/60 border border-white/5">
-                <strong className="text-white block mb-1">📐 Scene Retention Structure:</strong>
-                0:00 - 0:03 Fast hook cut &rarr; 0:03 - 0:12 Context setting with background sound &rarr; 0:12 - 0:24 Pattern interrupt &rarr; 0:24 - CTA loop.
-              </div>
-
-              <div className="p-3.5 rounded-xl bg-neutral-900/60 border border-white/5">
-                <strong className="text-white block mb-1">📝 Shooting Blueprint for Your Brand:</strong>
-                Use 1 actor facing direct to camera with hand gesture, overlay contrast text in top third of screen, record audio on trending sound &quot;{activeVideoForAnalysis.audioName || 'Urgent News'}&quot;.
+              <div className="p-3 rounded-lg bg-white/5 border border-white/10">
+                <span className="text-xs font-bold text-neutral-300 uppercase">
+                  Shooting Blueprint Recommendation
+                </span>
+                <ul className="text-xs text-neutral-300 space-y-1.5 mt-2 list-disc list-inside">
+                  <li>
+                    <strong>00:00 - 00:03</strong>: Face forward, tight framing, high visual contrast
+                    jump cut.
+                  </li>
+                  <li>
+                    <strong>00:03 - 00:12</strong>: Rapid B-roll demonstration matching beat of
+                    trending audio.
+                  </li>
+                  <li>
+                    <strong>00:12 - 00:25</strong>: 2 actionable takeaways, subtitles highlighted in
+                    yellow bold.
+                  </li>
+                  <li>
+                    <strong>00:25 - 00:30</strong>: Single question CTA to spark comment debate.
+                  </li>
+                </ul>
               </div>
             </div>
 
             <div className="flex items-center justify-end gap-2 pt-2">
               <button
                 onClick={() => {
-                  const vid = activeVideoForAnalysis;
+                  handleAdaptScript(activeVideoForAnalysis);
                   setActiveVideoForAnalysis(null);
-                  handleAdaptScript(vid);
                 }}
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 text-white font-bold text-xs shadow-md"
+                className="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold text-xs shadow-lg hover:brightness-110 transition-all"
               >
-                Send to AI Scriptwriter &rarr;
+                Adapt this Script in Studio (15⚡)
               </button>
             </div>
           </div>
         </div>
       )}
-
-      {/* Floating Bottom Copilot Dock */}
-      <CopilotDock
-        onExecutePrompt={handleExecuteCopilotPrompt}
-        onOpenLessons={() => {
-          toast.info('Opening Creator Onboarding Lessons');
-          setActiveTab('templates');
-        }}
-      />
     </div>
   );
 }

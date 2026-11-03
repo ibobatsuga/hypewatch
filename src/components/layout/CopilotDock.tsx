@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 
 interface CopilotDockProps {
   onExecutePrompt: (prompt: string) => void;
-  onOpenLessons: () => void;
+  onOpenLessons?: () => void;
 }
 
 export const CopilotDock: React.FC<CopilotDockProps> = ({ onExecutePrompt, onOpenLessons }) => {
