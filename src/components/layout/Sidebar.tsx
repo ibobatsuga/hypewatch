@@ -93,51 +93,47 @@ export const Sidebar: React.FC<SidebarProps> = ({
         isCollapsed ? 'w-18' : 'w-64'
       }`}
     >
-      {/* Brand Header */}
-      <div className="h-16 flex items-center justify-between px-4 border-b border-white/[0.06]">
-        {!isCollapsed && (
-          <div
-            onClick={() => setActiveTab('dashboard')}
-            className="flex items-center gap-2.5 cursor-pointer group"
-          >
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-[0_0_15px_-2px_rgba(249,115,22,0.45)] group-hover:scale-105 transition-transform">
-              <Flame className="w-4 h-4 text-white fill-white" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold tracking-tight text-white flex items-center gap-1.5">
-                HypeLab
-                <span className="text-[9px] uppercase font-mono font-medium px-1 py-0.2 rounded bg-orange-500/15 text-orange-400 border border-orange-500/30">
-                  PRO
+      {/* Brand Header & Single Toggle Button */}
+      <div className="h-16 flex items-center justify-between px-3.5 border-b border-white/[0.06]">
+        {isCollapsed ? (
+          <div className="w-full flex items-center justify-center">
+            <button
+              onClick={() => setIsCollapsed(false)}
+              className="p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.08] transition-colors group"
+              title="Expand sidebar"
+            >
+              <PanelLeftOpen className="w-5 h-5 text-orange-400 group-hover:scale-110 transition-transform" />
+            </button>
+          </div>
+        ) : (
+          <>
+            <div
+              onClick={() => setActiveTab('dashboard')}
+              className="flex items-center gap-2.5 cursor-pointer group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-[0_0_15px_-2px_rgba(249,115,22,0.45)] group-hover:scale-105 transition-transform">
+                <Flame className="w-4 h-4 text-white fill-white" />
+              </div>
+              <div className="flex flex-col">
+                <span className="text-sm font-bold tracking-tight text-white flex items-center gap-1.5">
+                  HypeLab
+                  <span className="text-[9px] uppercase font-mono font-medium px-1 py-0.2 rounded bg-orange-500/15 text-orange-400 border border-orange-500/30">
+                    PRO
+                  </span>
                 </span>
-              </span>
-              <span className="text-[10px] text-zinc-500 font-medium">Virality Engine</span>
+                <span className="text-[10px] text-zinc-500 font-medium">Virality Engine</span>
+              </div>
             </div>
-          </div>
-        )}
 
-        {isCollapsed && (
-          <div
-            onClick={() => setActiveTab('dashboard')}
-            className="mx-auto w-8 h-8 rounded-lg bg-gradient-to-tr from-orange-600 to-amber-500 flex items-center justify-center shadow-[0_0_15px_-2px_rgba(249,115,22,0.45)] cursor-pointer"
-          >
-            <Flame className="w-4 h-4 text-white fill-white" />
-          </div>
+            <button
+              onClick={() => setIsCollapsed(true)}
+              className="p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors"
+              title="Collapse sidebar"
+            >
+              <PanelLeftClose className="w-4 h-4" />
+            </button>
+          </>
         )}
-
-        {/* Toggle Collapse Button */}
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className={`p-1.5 rounded-md text-zinc-400 hover:text-white hover:bg-white/[0.06] transition-colors ${
-            isCollapsed ? 'mx-auto mt-2' : ''
-          }`}
-          title={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-        >
-          {isCollapsed ? (
-            <PanelLeftOpen className="w-4 h-4" />
-          ) : (
-            <PanelLeftClose className="w-4 h-4" />
-          )}
-        </button>
       </div>
 
       {/* Nav Items List */}

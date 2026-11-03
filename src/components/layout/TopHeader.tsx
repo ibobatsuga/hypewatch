@@ -5,8 +5,6 @@ import {
   Search,
   Zap,
   Bell,
-  PanelLeftClose,
-  PanelLeftOpen,
   ChevronRight,
   Globe,
   SlidersHorizontal,
@@ -18,8 +16,8 @@ interface TopHeaderProps {
   activeTab: ActiveTab;
   setActiveTab: (tab: ActiveTab) => void;
   tokens: number;
-  isCollapsed: boolean;
-  setIsCollapsed: (collapsed: boolean | ((prev: boolean) => boolean)) => void;
+  isCollapsed?: boolean;
+  setIsCollapsed?: (collapsed: boolean | ((prev: boolean) => boolean)) => void;
 }
 
 const TAB_TITLES: Record<ActiveTab, { title: string; category: string }> = {
@@ -53,29 +51,15 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
 
   return (
     <header className="sticky top-0 z-30 h-16 w-full bg-[#08090d]/85 backdrop-blur-xl border-b border-white/[0.06] flex items-center justify-between px-6">
-      {/* Left: Sidebar Toggle & Breadcrumb */}
-      <div className="flex items-center gap-4">
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.06] border border-white/[0.05] transition-colors"
-          title={isCollapsed ? 'Expand Sidebar (Ctrl+B)' : 'Collapse Sidebar (Ctrl+B)'}
-        >
-          {isCollapsed ? (
-            <PanelLeftOpen className="w-4 h-4 text-zinc-300" />
-          ) : (
-            <PanelLeftClose className="w-4 h-4 text-zinc-300" />
-          )}
-        </button>
-
-        <div className="flex items-center gap-2 text-xs">
-          <span className="font-medium text-zinc-500 uppercase tracking-wider text-[11px]">
-            {currentTabInfo.category}
-          </span>
-          <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
-          <h1 className="font-semibold text-zinc-200 tracking-tight text-sm">
-            {currentTabInfo.title}
-          </h1>
-        </div>
+      {/* Left: Section Breadcrumb */}
+      <div className="flex items-center gap-2 text-xs">
+        <span className="font-medium text-zinc-500 uppercase tracking-wider text-[11px]">
+          {currentTabInfo.category}
+        </span>
+        <ChevronRight className="w-3.5 h-3.5 text-zinc-600" />
+        <h1 className="font-semibold text-zinc-200 tracking-tight text-sm">
+          {currentTabInfo.title}
+        </h1>
       </div>
 
       {/* Center: Search Bar */}
